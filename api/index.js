@@ -65,10 +65,12 @@ app.delete('/api/todoapp/DeleteNotes', (req, res) => {
 // ... (Your existing imports and setup code)
 
 app.post('/api/todoapp/addName', upload.single('image'), (req, res) => {
-  const newName = req.body.name;
+  const {name,stack,week,github,linkedin,number} = req.body
+  // const newStack = req.body.stack;
+  // const week = req.body.week;
   const imageFile = req.file;
   console.log(req.file)
-  if (!newName || !imageFile) {
+  if (!name || !imageFile) {
     res.status(400).send('Name and Image are required');
     return;
   }
@@ -77,7 +79,7 @@ app.post('/api/todoapp/addName', upload.single('image'), (req, res) => {
   console.log(imageBuffer)
   const imageBase64 = imageBuffer.toString('base64'); // Convert buffer to base64
 
-  database.collection('todoapp').insertOne({ name: newName, imageUrl: imageBase64 }, (err, result) => {
+  database.collection('todoapp').insertOne({ name: name, imageUrl: imageBase64 ,week:week,stack:stack,github:github,linkedin:linkedin,number:number}, (err, result) => {
     if (err) {
       console.error('Error adding name and image:', err);
       res.status(500).send('Error adding name and image');
